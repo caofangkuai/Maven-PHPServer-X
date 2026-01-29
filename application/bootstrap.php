@@ -2,8 +2,8 @@
 
 // -- Environment setup --------------------------------------------------------
 
-define('SERVER_NAME', 'Maven-PHPServer');
-define('SERVER_VERSION', '0.1');
+define('SERVER_NAME', 'Maven-PHPServer-X');
+define('SERVER_VERSION', '0.2');
 
 $repo = 'repo';
 
@@ -42,7 +42,7 @@ date_default_timezone_set('Europe/Brussels');
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/function.setlocale
  */
-setlocale(LC_ALL, 'en_US.utf-8');
+setlocale(LC_ALL, 'en-US.utf-8');
 
 /**
  * Enable the Kohana auto-loader.

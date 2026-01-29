@@ -7,8 +7,8 @@ class Controller_Home extends Controller_Gui {
 		parent::before();
 		
 		$this->sub_menu = array(
-			'index' => 'Home',
-			'maven' => 'Maven settings'
+			'index' => '主页',
+			'maven' => 'Maven设置'
 		);
 		
 		$this->current_page = 'home';
@@ -16,7 +16,7 @@ class Controller_Home extends Controller_Gui {
 
 	public function action_index()
 	{
-		$this->page_title = 'Home';
+		$this->page_title = '主页';
 		$this->current_sub_page = 'index';
 		
 		$this->template->content = View::factory('gui/home/main');

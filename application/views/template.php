@@ -36,14 +36,14 @@
 		
 		<div class="alert alert-warning">
 		<!-- <div class="alert alert-danger"> -->
-			<strong>Warning!</strong>
-			This application is still under development. Currently in pre-alpha stage.
+			<strong>警告!</strong>
+			此应用程序仍在开发中。目前处于pre-alpha阶段。
 		</div>
     
 		<?php echo $content; ?>
 	
 		<div class="footer">
-			<p>&copy; Creating Future 2013</p>
+			<p>&copy; Creating Future 2013 & caofangkuai 2026</p>
 		</div>
 		
 	</div> <!-- /container -->

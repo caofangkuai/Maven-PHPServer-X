@@ -4,7 +4,7 @@ return array
 (
 	'default' => array
 	(
-		'type'       => 'MySQL',
+		'type'       => 'PDO',//PHP8和Mysql8.4的搭配只能用这个
 		'connection' => array(
 			/**
 			 * The following options are available for MySQL:
@@ -18,39 +18,15 @@ return array
 			 *
 			 * Ports and sockets may be appended to the hostname.
 			 */
-			'hostname'   => 'localhost',
+			'dsn'        => 'mysql:host=mysql;dbname=mavenphpserver',//PDO的配置
+			'hostname'   => 'mysql',
 			'database'   => 'mavenphpserver',
-			'username'   => 'mavenphpserver',
-			'password'   => 'mavenphpserver',
-			'persistent' => FALSE,
-		),
-		'table_prefix' => '',
-		'charset'      => 'utf8',
-		'caching'      => FALSE,
-	),
-	'alternate' => array(
-		'type'       => 'PDO',
-		'connection' => array(
-			/**
-			 * The following options are available for PDO:
-			 *
-			 * string   dsn         Data Source Name
-			 * string   username    database username
-			 * string   password    database password
-			 * boolean  persistent  use persistent connections?
-			 */
-			'dsn'        => 'mysql:host=localhost;dbname=kohana',
 			'username'   => 'root',
-			'password'   => 'r00tdb',
+			'password'   => 'password',
 			'persistent' => FALSE,
 		),
-		/**
-		 * The following extra options are available for PDO:
-		 *
-		 * string   identifier  set the escaping identifier
-		 */
 		'table_prefix' => '',
-		'charset'      => 'utf8',
+		'charset'      => 'utf8mb4',
 		'caching'      => FALSE,
 	),
 );

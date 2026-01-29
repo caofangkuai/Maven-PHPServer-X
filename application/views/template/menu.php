@@ -1,8 +1,8 @@
 <?php
 	$menu = array(
-		"home" => "Home",
-		"artifacts" => "Artifacts",
-		"deploy" => "Deploy",
+		"home" => "主页",
+		"artifacts" => "制品",
+		"deploy" => "部署",
 		
 	);
 
