@@ -31,7 +31,7 @@
 			<label for="version">版本</label>
 			<input type="text" class="form-control" name="version" id="version" value="<?php echo $settings['version']; ?>">
 		</div>
-		<div class="form-group">
+		<div class="form-group" style="display: none;">
 			<label for="classifier">Classifier</label>
 			<input type="text" class="form-control" name="classifier" id="classifier" value="<?php if (isset($settings['classifier'])) echo $settings['classifier']; ?>">
 		</div>

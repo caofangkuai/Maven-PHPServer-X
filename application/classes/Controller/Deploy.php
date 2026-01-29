@@ -302,9 +302,9 @@ class Controller_Deploy extends Controller_Gui
 	<artifactId>{$generatedpom['artifactId']}</artifactId>
 	<packaging>{$generatedpom['type']}</packaging>
 	<version>{$generatedpom['version']}</version>
-	<classifier>{$generatedpom['classifier']}</classifier>
-	<name>{$generatedpom['classifier']}</name>
-	<description />
+	<!-- <classifier>{$generatedpom['classifier']}</classifier>
+	<name>{$generatedpom['classifier']}</name> -->
+	<description>PHP Maven Repository Uploaded</description>
 CONTENT;
 
 		if (count($generatedpom['dependencies']) > 0) {
