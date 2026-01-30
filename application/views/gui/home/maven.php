@@ -87,12 +87,12 @@ GRADLE;
 ?>
 
 <style>
-.textarea-container {
+  .textarea-container {
     position: relative;
     margin-bottom: 20px;
-}
+  }
 
-.copy-btn {
+  .copy-btn {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -103,41 +103,42 @@ GRADLE;
     color: white;
     border: none;
     border-radius: 3px;
-}
+  }
 
-.copy-btn:hover {
+  .copy-btn:hover {
     background-color: #0056b3;
-}
+  }
 </style>
 
 <div>
-    <h3>Maven settings.xml</h3>
-    <div class="textarea-container">
-        <button class="copy-btn" onclick="copyToClipboard('mavenTextarea')">复制</button>
-        <textarea id="mavenTextarea" class="form-control" rows="20" readonly="readonly"><?php echo htmlspecialchars($maven_template); ?></textarea>
-    </div>
+  <p>提示：您也可使用 <?php echo $base_url; ?>maven-public 组合目录</p>
+  <h3>Maven settings.xml</h3>
+  <div class="textarea-container">
+    <button class="copy-btn" onclick="copyToClipboard('mavenTextarea')">复制</button>
+    <textarea id="mavenTextarea" class="form-control" rows="20" readonly="readonly"><?php echo htmlspecialchars($maven_template); ?></textarea>
+  </div>
 
-    <h3>Gradle 仓库配置</h3>
-    <div class="textarea-container">
-        <button class="copy-btn" onclick="copyToClipboard('gradleTextarea')">复制</button>
-        <textarea id="gradleTextarea" class="form-control" rows="20" readonly="readonly"><?php echo htmlspecialchars($gradle_template); ?></textarea>
-    </div>
+  <h3>Gradle 仓库配置</h3>
+  <div class="textarea-container">
+    <button class="copy-btn" onclick="copyToClipboard('gradleTextarea')">复制</button>
+    <textarea id="gradleTextarea" class="form-control" rows="20" readonly="readonly"><?php echo htmlspecialchars($gradle_template); ?></textarea>
+  </div>
 </div>
 
 <script>
-function copyToClipboard(textareaId) {
+  function copyToClipboard(textareaId) {
     const textarea = document.getElementById(textareaId);
     textarea.select();
     textarea.setSelectionRange(0, 99999); // 兼容移动端
     try {
-        const successful = document.execCommand('copy');
-        if(successful){
-            alert('复制成功!');
-        } else {
-            alert('复制失败，请手动复制');
-        }
+      const successful = document.execCommand('copy');
+      if (successful) {
+        alert('复制成功!');
+      } else {
+        alert('复制失败，请手动复制');
+      }
     } catch (err) {
-        alert('浏览器不支持自动复制，请手动复制');
+      alert('浏览器不支持自动复制，请手动复制');
     }
-}
+  }
 </script>
