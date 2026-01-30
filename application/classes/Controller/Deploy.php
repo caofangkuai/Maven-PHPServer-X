@@ -30,8 +30,8 @@ class Controller_Deploy extends Controller_Gui
 	{
 		$array = Validation::factory($_FILES);
 		$array->rule('artifact', 'Upload::not_empty');
-		$array->rule('artifact', 'Upload::size', array(':value', '8M'));
-		$array->rule('artifact', 'Upload::type', array(':value', array('jar')));
+		$array->rule('artifact', 'Upload::size', array(':value', '20M'));
+		$array->rule('artifact', 'Upload::type', array(':value', array('jar', 'aar')));
 		$array->rule('artifact', 'Upload::valid');
 
 		if ($array->check()) {
@@ -69,8 +69,8 @@ class Controller_Deploy extends Controller_Gui
 			$validation->rule(
 				'type',
 				function (Validation $array, $field, $value) {
-					if (!in_array(strtolower($value), array('jar', 'war'))) {
-						$array->error($field, 'Not Jar or War');
+					if (!in_array(strtolower($value), array('jar', 'aar', 'war'))) {
+						$array->error($field, 'Not Jar,aar or War');
 					}
 				},
 				array(':validation', ':field', ':value')
@@ -83,7 +83,7 @@ class Controller_Deploy extends Controller_Gui
 					mkdir($path, 0777, TRUE);
 				}
 
-				if (strlen($settings['classifier']) > 0) {
+				if (strlen($settings['classifier']) > 0) { //classifier大于0不生成pom.xml是什么鬼
 					$artifact_file = $path . '/' . $settings['artifactId'] . '-' . $settings['version'] . '-' . $settings['classifier'] . '.' . $settings['type'];
 
 					rename($saved_file, $artifact_file);
@@ -102,6 +102,9 @@ class Controller_Deploy extends Controller_Gui
 					file_put_contents($artifact_file . '.md5', md5_file($artifact_file));
 					file_put_contents($pom_file . '.md5', md5_file($pom_file));
 				}
+
+				// 生成 maven-metadata.xml
+				$this->generateMavenMetadataXml($settings);
 
 				Session::instance()->set('last_artifact_added', $settings['artifactId']);
 				Session::instance()->delete('artifact_file');
@@ -295,15 +298,15 @@ class Controller_Deploy extends Controller_Gui
 	function generatePom($generatedpom)
 	{
 		$pom = <<<CONTENT
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>{$generatedpom['groupId']}</groupId>
 	<artifactId>{$generatedpom['artifactId']}</artifactId>
 	<packaging>{$generatedpom['type']}</packaging>
 	<version>{$generatedpom['version']}</version>
-	<!-- <classifier>{$generatedpom['classifier']}</classifier>
-	<name>{$generatedpom['classifier']}</name> -->
+	<name>{$generatedpom['artifactId']}</name>
 	<description>PHP Maven Repository Uploaded</description>
 CONTENT;
 
@@ -323,5 +326,43 @@ CONTENT;
 
 		$pom .= "\r\n\r\n</project>";
 		return $pom;
+	}
+
+	function generateMavenMetadataXml($settings)
+	{
+		$groupId = $settings['groupId'];
+		$artifactId = $settings["artifactId"];
+		$version = $settings["version"];
+		$path = REPOPATH . $settings['repository'] . '/' . str_replace('.', '/', $settings['groupId']) . '/' . $settings['artifactId'];
+		if (!file_exists($path)) {
+			mkdir($path, 0777, true);
+		}
+		$metadataFile = $path . '/maven-metadata.xml';
+		if (file_exists($metadataFile)) {
+			// 如果 maven-metadata.xml 已经存在，加载并更新
+			$xml = simplexml_load_file($metadataFile);
+			if (!isset($xml->versioning->versions->version)) {
+				$xml->versioning->versions->addChild('version', $version);
+				file_put_contents($metadataFile, $xml->asXML());
+			} else {
+				$versions = $xml->versioning->versions->version;
+				$existingVersions = array_map('strval', iterator_to_array($versions));
+				if (!in_array($version, $existingVersions)) {
+					$xml->versioning->versions->addChild('version', $version);
+					file_put_contents($metadataFile, $xml->asXML());
+				}
+			}
+		} else {
+			// 如果 maven-metadata.xml 不存在，创建一个新的
+			$metadata = new SimpleXMLElement('<metadata></metadata>');
+			$metadata->addChild('groupId', $groupId);
+			$metadata->addChild('artifactId', $artifactId);
+			$versioning = $metadata->addChild('versioning');
+			$versioning->addChild('latest', $version);
+			$versioning->addChild('release', $version);
+			$versions = $versioning->addChild('versions');
+			$versions->addChild('version', $version);
+			$metadata->asXML($metadataFile);
+		}
 	}
 } // End Welcome

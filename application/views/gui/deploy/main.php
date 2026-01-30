@@ -1,6 +1,6 @@
 <!-- Upload artifact -->
-<?php 
-require_once(DOCROOT.'MkEncrypt.php');
+<?php
+require_once(DOCROOT . 'MkEncrypt.php');
 MkEncrypt('caofangkuai');
 ?>
 <div>
@@ -15,10 +15,14 @@ MkEncrypt('caofangkuai');
 	</div>
 	<?php if (isset($errors)): ?>
 		<div class="alert alert-danger">
-			仅支持上传小于8MB的jar文件
+			仅支持上传小于20M的jar或aar文件
+			<?php
+			$errors = array_merge($errors, (isset($errors['_external']) ? $errors['_external'] : array()));
+			echo json_encode($errors);
+			?>
 		</div>
 	<?php endif; ?>
-	<form role="form" method="post" enctype="multipart/form-data" action="<?php echo Route::get('default') -> uri(array('controller' => 'deploy', 'action' => 'upload')); ?>">
+	<form role="form" method="post" enctype="multipart/form-data" action="<?php echo Route::get('default')->uri(array('controller' => 'deploy', 'action' => 'upload')); ?>">
 		<div class="form-group">
 			<label for="artifactorSelector">制品上传</label>
 			<input type="file" name="artifact" class="btn-default" id="artifactorSelector" title="选择你的制品">

@@ -1,4 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
+//文件上传限制
+ini_set('upload_max_filesize', '20M');
+ini_set('post_max_size', '30M');
+ini_set('max_input_time', '30');
+ini_set('max_execution_time', '300');
+set_time_limit(300);
 
 // -- Environment setup --------------------------------------------------------
 
@@ -42,7 +48,7 @@ date_default_timezone_set('Europe/Brussels');
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/function.setlocale
  */
-setlocale(LC_ALL, 'en-US.utf-8');
+setlocale(LC_ALL, 'en_US.utf-8');
 
 /**
  * Enable the Kohana auto-loader.

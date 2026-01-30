@@ -1,7 +1,5 @@
-application/cache/*
-application/logs/*
 application/config/database.php
-repo/*
-upload/*
 .settings
 .project
+application/logs/2026
+repo/libs-release-local
