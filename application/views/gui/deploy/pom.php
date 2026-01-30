@@ -38,7 +38,7 @@
 		<div class="form-group">
 			<label for="type">类型</label>
 			<input type="text" class="form-control" name="type" id="type" value="<?php echo $settings['type']; ?>">
-			<p class="help-block">必须为jar或war</p>
+			<p class="help-block">必须为jar,aar或war</p>
 		</div>
 		<div class="btn-group">
 			<button type="submit" class="btn btn-primary">
